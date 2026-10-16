@@ -12,7 +12,7 @@ This project predicts Premier League results: home win, draw, or away win. It wo
 
 The easiest way to fool yourself with a sports model is to let future results leak into training. So when I predict a match on date T, everything the models use (team ratings, Elo, rolling averages) comes only from matches played before T. The backtests follow the same rule and move forward through time instead of shuffling the data.
 
-## Getting started
+## To Get Started
 
 Install the dependencies:
 

@@ -338,6 +338,12 @@ def run_walk_forward_pipeline():
     results_table = pd.DataFrame(comparison).T
     print("\n=== PHASE 10: HONEST WALK-FORWARD MODEL COMPARISON ===")
     print(results_table.to_string())
+    results_table.to_csv(PROCESSED_DIR / "model_comparison.csv")
+    stage2_out = backtest_df[["Match_ID", "Date", "Season", "HomeTeam", "AwayTeam", "Target"]].copy()
+    for k, name in enumerate(["H", "D", "A"]):
+        stage2_out[f"lgbm_p_{name}"] = uncal_probs[:, k]
+        stage2_out[f"cal_p_{name}"] = cal_probs[:, k]
+    stage2_out.to_csv(PROCESSED_DIR / "backtest_stage2.csv", index=False)
 
     # Fit final production models on all available data and save them
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
@@ -350,6 +356,7 @@ def run_walk_forward_pipeline():
     eval_df.to_csv(PROCESSED_DIR / "backtest_predictions.csv", index=False)
     print(f"\n[SUCCESS] Saved trained Stage 1 & Stage 2 artifacts to '{MODELS_DIR}'")
 
-
 if __name__ == "__main__":
-    run_walk_forward_pipeline()
+    from src.train import run_walk_forward_pipeline as _run
+
+    _run()

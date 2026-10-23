@@ -76,9 +76,9 @@ def get_team_meta(bootstrap):
 
 
 def get_upcoming_fixtures(bootstrap, fixtures):
-    """Fixtures that haven't started, from this weekend onwards."""
+    """Every fixture that hasn't kicked off yet, including later today."""
     teams = _team_names(bootstrap)
-    start = weekend_start()
+    now = pd.Timestamp.now(tz=LOCAL_TZ)
     rows = []
     for fx in fixtures:
         if fx.get("finished") or fx.get("finished_provisional") or fx.get("started"):
@@ -86,8 +86,8 @@ def get_upcoming_fixtures(bootstrap, fixtures):
         if not fx.get("kickoff_time"):
             continue
         kickoff = pd.Timestamp(fx["kickoff_time"]).tz_convert(LOCAL_TZ)
-        if kickoff.date() < start:
-            continue
+        if kickoff <= now:
+            continue  # already under way or finished
         rows.append({
             "Kickoff": kickoff,
             "MatchDate": kickoff.date(),

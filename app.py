@@ -141,9 +141,9 @@ def split_upcoming():
     if live is None or live["upcoming"].empty:
         return pd.DataFrame(), pd.DataFrame()
     up = live["upcoming"]
+    up = up[up["Kickoff"] > pd.Timestamp.now(tz=LOCAL_TZ)]  # drop matches that have kicked off
     ok = up["Home"].isin(known_teams) & up["Away"].isin(known_teams)
     return up[ok].reset_index(drop=True), up[~ok]
-
 
 def position_lookup():
     if live is not None and not live["results"].empty:

@@ -1,0 +1,7 @@
+,LogLoss,Brier,RPS
+1. Naive Base Rate,1.0659,0.644,0.2293
+2. Simple Poisson (Stage 1 Baseline),0.9771,0.5815,0.1991
+3. Dixon-Coles (Stage 1 Scout),0.9775,0.5817,0.1991
+4. LightGBM Uncalibrated (Stage 2),0.9729,0.5783,0.1974
+5. LightGBM Calibrated (Stage 2 Manager),0.9766,0.5805,0.1981
+6. Bookmaker Implied (Benchmark),0.9608,0.5702,0.194
